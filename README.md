@@ -15,7 +15,7 @@ Static website hosted on an Ubuntu EC2 instance and accessed from a second EC2 i
 5. From client: curl -I http://SERVER_PRIVATE_IP
 
 ## Screenshots
-![200 OK](screenshots/curl-200.png)
-![Curl test](screenshots/curl.png)
-![Mobile](screenshots/mobile.jpg)
+![curl-200](screenshots/curl-200.png)
+![curl](screenshots/curl.png)
+![mobile](screenshots/mobile.jpeg)
 
