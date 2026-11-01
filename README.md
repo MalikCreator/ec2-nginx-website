@@ -1,4 +1,4 @@
-﻿# Static Website on AWS EC2 (Nginx)
+# Static Website on AWS EC2 (Nginx)
 
 Static website hosted on an Ubuntu EC2 instance and accessed from a second EC2 instance.
 
@@ -15,5 +15,7 @@ Static website hosted on an Ubuntu EC2 instance and accessed from a second EC2 i
 5. From client: curl -I http://SERVER_PRIVATE_IP
 
 ## Screenshots
-![Browser](screenshots/browser.png)
+![200 OK](screenshots/curl-200.png)
 ![Curl test](screenshots/curl.png)
+![Mobile](screenshots/mobile.jpg)
+
