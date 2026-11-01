@@ -19,3 +19,5 @@ Static website hosted on an Ubuntu EC2 instance and accessed from a second EC2 i
 ![curl](screenshots/curl.png)
 ![mobile](screenshots/mobile.jpeg)
 
+
+![Website](screenshots/web.png)
