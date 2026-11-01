@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EC2 Web Server | Live</title>
+<meta name="description" content="Website served from an Ubuntu EC2 instance using Nginx.">
+<style>
+  :root {
+    --bg: #eef3f1; --ink: #14302b; --muted: #4d6862;
+    --panel: #ffffff; --line: #c9d8d3; --accent: #0f766e; --ok: #1f9d55;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #0e1c19; --ink: #e6f1ee; --muted: #93aca5; --panel: #152824; --line: #27403a; --accent: #5eead4; --ok: #4ade80; }
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--bg); color: var(--ink); font: 17px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; min-height: 100vh; }
+  main { max-width: 760px; margin: 0 auto; padding: 56px 20px 40px; }
+  h1 { font-size: clamp(2.2rem, 7vw, 3.6rem); line-height: 1.05; letter-spacing: -0.03em; font-weight: 800; }
+  .lead { color: var(--muted); margin-top: 14px; max-width: 52ch; }
+  .status { display: inline-flex; align-items: center; gap: 8px; margin-top: 24px; padding: 6px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--panel); font-size: .9rem; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--ok); animation: pulse 2s infinite; }
+  @keyframes pulse { 50% { opacity: .35; } }
+  section { margin-top: 40px; }
+  h2 { font-size: 1.2rem; margin-bottom: 12px; }
+  dl { display: grid; grid-template-columns: max-content 1fr; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  dt, dd { padding: 12px 16px; border-bottom: 1px solid var(--line); }
+  dt { color: var(--muted); }
+  dd { font-weight: 600; word-break: break-all; }
+  dt:last-of-type, dd:last-of-type { border-bottom: 0; }
+  pre { background: var(--panel); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 10px; padding: 14px 16px; overflow-x: auto; font: .92rem/1.5 ui-monospace, Consolas, monospace; }
+  button { margin-top: 10px; padding: 9px 16px; border: 0; border-radius: 8px; background: var(--accent); color: var(--bg); font: 600 .95rem inherit; cursor: pointer; }
+  button:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+  footer { margin-top: 48px; color: var(--muted); font-size: .85rem; }
+  @media (prefers-reduced-motion: reduce) { .dot { animation: none; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>This page is served from an EC2 instance.</h1>
+  <p class="lead">Ubuntu, Nginx and one HTML file. If you can read this, the security group, the web server and the network path all work.</p>
+  <p class="status" role="status"><span class="dot"></span> Server is up</p>
+
+  <section>
+    <h2>Connection details</h2>
+    <dl>
+      <dt>Host</dt><dd id="host">-</dd>
+      <dt>Protocol</dt><dd id="proto">-</dd>
+      <dt>Loaded at</dt><dd id="time">-</dd>
+      <dt>Load time</dt><dd id="perf">-</dd>
+    </dl>
+  </section>
+
+  <section>
+    <h2>Test from your second EC2</h2>
+    <pre id="cmd">curl -I http://SERVER_PRIVATE_IP</pre>
+    <button id="copy" type="button">Copy command</button>
+  </section>
+
+  <footer>Hosted on AWS EC2 with Nginx.</footer>
+</main>
+
+<script>
+  const $ = (id) => document.getElementById(id);
+  $("host").textContent = location.host || "local file";
+  $("proto").textContent = location.protocol.replace(":", "").toUpperCase();
+  $("time").textContent = new Date().toLocaleString();
+  window.addEventListener("load", () => {
+    const nav = performance.getEntriesByType("navigation")[0];
+    $("perf").textContent = nav ? Math.round(nav.duration) + " ms" : "n/a";
+  });
+  const cmd = "curl -I http://" + (location.hostname || "SERVER_PRIVATE_IP");
+  $("cmd").textContent = cmd;
+  $("copy").addEventListener("click", async () => {
+    try { await navigator.clipboard.writeText(cmd); $("copy").textContent = "Copied"; }
+    catch { $("copy").textContent = "Select and copy manually"; }
+  });
+</script>
+</body>
+</html>
